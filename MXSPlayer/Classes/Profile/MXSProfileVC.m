@@ -36,14 +36,6 @@
 #pragma mark --  Stringactions From Array
 - (void)didSelectedWeb:(NSString *)webName {
 	
-	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	
-	NSString* name = [NSString stringWithFormat:@"MXS%@Handle", webName];
-	Class c = NSClassFromString(name);
-	[c handNodeWithSimple];
-	
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	
 	//	Method m = class_getClassMethod(c, @selector(handNodeWithSimple));//获取类方法
 	//	IMP im = method_getImplementation(m);
 	//	NSDictionary *back_args = im(c, @selector(handNodeWithSimple));

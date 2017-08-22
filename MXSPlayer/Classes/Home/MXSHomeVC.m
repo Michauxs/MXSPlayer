@@ -50,24 +50,7 @@
 }
 
 - (id)demo01 {
-	NSString *urlstring = @"http://www.dianping.com/shop/66526819";
 	
-	NSString *htmlStr;
-	htmlStr = [NodeHandle requestHtmlStringWith:urlstring];
-	
-	NSError *error = nil;
-	HTMLParser *parser = [[HTMLParser alloc] initWithString:htmlStr error:&error];
-	if (error) {
-		NSLog(@"Error: %@", error);
-		return nil;
-	}
-	
-	HTMLNode *bodyNode = [parser body];
-	
-	NSArray *arrayNode = [bodyNode findChildrenOfClass:@"shop-title"];
-	
-	NSString *name = [[arrayNode firstObject] rawContents];
-	name = [NodeHandle delHTMLTag:name];
 	return nil;
 }
 
