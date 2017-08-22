@@ -1,0 +1,27 @@
+//
+//  MXS-Prefix.pch
+//  MXSTest
+//
+//  Created by Alfred Yang on 21/2/17.
+//  Copyright © 2017年 Alfred Yang. All rights reserved.
+//
+
+#ifndef MXS_Prefix_pch
+#define MXS_Prefix_pch
+
+#import "Tools.h"
+#import "Masonry.h"
+#import "MJRefresh.h"
+#import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
+#import "SDWebImageManager.h"
+#import "MBProgressHUD.h"
+
+
+#define IMGRESOURE(NAME) 				[UIImage imageNamed:NAME]
+#define SCREEN_WIDTH 					[UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT 					[UIScreen mainScreen].bounds.size.height
+#define SCREEN_SCALE 					[UIScreen mainScreen].scale
+
+
+#endif /* MXS_Prefix_pch */
