@@ -114,8 +114,9 @@ static MXSFileWatcher *_instance;
 - (void)getiTunesVideo {
     
     dispatch_async(fileWatcher_queue(), ^{
-        //获取沙盒里所有文件
+		
         NSFileManager *fileManager = [NSFileManager defaultManager];
+		
         //在这里获取应用程序Documents文件夹里的文件及文件夹列表
         NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentDir = [documentPaths objectAtIndex:0];
@@ -126,12 +127,15 @@ static MXSFileWatcher *_instance;
         if (fileList.count > 0) {
             for (NSString *file in fileList) {
                 if ([file hasSuffix:@".mov"] ||[file hasSuffix:@".mp4"] || [file hasSuffix:@".m4v"]) {
+					
                     NSString *videoPath = [documentDir stringByAppendingPathComponent:file];
                     NSArray *lyricArr = [videoPath componentsSeparatedByString:@"/"];
-                    
-                    if (![self.videoNameArr containsObject:[lyricArr lastObject]]) {
-                        [self.videoNameArr addObject:[lyricArr lastObject]];
-                        //===============================循环判断是否复制完成==============================================
+					NSString *nameStr = [lyricArr lastObject];
+					
+                    if (![self.videoNameArr containsObject:nameStr]) {
+                        [self.videoNameArr addObject:nameStr];
+						
+                        /*==============循环判断是否复制完成==============*/
                         NSInteger lastSize = 0;
                         NSDictionary *fileAttrs = [[NSFileManager defaultManager] attributesOfItemAtPath:videoPath error:nil];
                         NSInteger fileSize = [[fileAttrs objectForKey:NSFileSize] intValue];
@@ -139,21 +143,24 @@ static MXSFileWatcher *_instance;
                             lastSize = fileSize;
                             [NSThread sleepForTimeInterval:0.5];
                             self.isFinishedCopy = NO;
+							
                             fileAttrs = [[NSFileManager defaultManager] attributesOfItemAtPath:videoPath error:nil];
                             fileSize = [[fileAttrs objectForKey:NSFileSize] intValue];
-                            NSLog(@"%@文件正在复制", [lyricArr lastObject]);
+                            NSLog(@"正在复制文件:%@", nameStr);
                         } while (lastSize != fileSize);
+						
                         self.isFinishedCopy = YES;
-                        NSLog(@"%@文件复制完成", [lyricArr lastObject]);
+                        NSLog(@"文件复制完成:%@", nameStr);
+						
                         VideoModel *model = [[VideoModel alloc] init];
                         model.videoPath = videoPath;
-                        model.videoName = [lyricArr lastObject];
+                        model.videoName = nameStr;
                         model.videoSize = [SandBoxHelper fileSizeForPath:videoPath];
+                        model.videoImgPath = [self saveImg:nil withVideoMid:nameStr];
+						model.videoAsset = nil;
 						
-                        model.videoImgPath = [self saveImg:[UIImage imageNamed:@"posters_default_horizontal"] withVideoMid:[NSString stringWithFormat:@"%lld", model.videoSize]];
 //						model.videoImgPath = [self saveImg:[UIImage getThumbnailImage:videoPath] withVideoMid:[NSString stringWithFormat:@"%lld", model.videoSize]];
 						
-                        model.videoAsset = nil;
                         [self.dataSource addObject:model];
                         ///为防止一次同时拖入多个文档，使得数据加载不全，特做一次递归处理。
                         [self directoryDidChange];
@@ -161,7 +168,9 @@ static MXSFileWatcher *_instance;
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshiTunesUINotification object:nil];
                 }
             }
-        }
+		} else {
+			NSLog(@"no files");
+		}
         self.isConvenientFinished = YES;
     });
 }
@@ -184,10 +193,10 @@ static MXSFileWatcher *_instance;
     if (!videoMid) {
         videoMid = [Tools getUUIDString];
     }
-    //png格式
-    NSData *imagedata=UIImagePNGRepresentation(image);
-    
-    NSString *savedImagePath = [[SandBoxHelper iTunesVideoImagePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", videoMid]];
+	
+    NSData *imagedata = UIImagePNGRepresentation(image);	//png格式
+	NSString *imageName = [NSString stringWithFormat:@"%@.png", videoMid];
+    NSString *savedImagePath = [[SandBoxHelper iTunesVideoImagePath] stringByAppendingPathComponent:imageName];
     
     [imagedata writeToFile:savedImagePath atomically:YES];
     

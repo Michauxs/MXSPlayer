@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "MXSTabBarController.h"
 #import "MXSHomeVC.h"
+#import "MXSFileWatcher.h"
 
 @interface AppDelegate ()
 
@@ -18,7 +19,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
 	
 //	[NSThread sleepForTimeInterval:2.0];
 	NSLog(@"项目路径 ======= %@", [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
@@ -29,11 +29,20 @@
 	MXSTabBarController *tabVC = [[MXSTabBarController alloc]init];
 	self.window.rootViewController = tabVC;
 	
-//	MXSHomeVC *home = [[MXSHomeVC alloc]init];
-//	self.window.rootViewController = home;
-	
     return YES;
 }
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)nowWindow {
+	
+	if (_allowRotation) {
+		return UIInterfaceOrientationMaskAll;
+	}
+	else {
+		return UIInterfaceOrientationMaskPortrait;
+	}
+	
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

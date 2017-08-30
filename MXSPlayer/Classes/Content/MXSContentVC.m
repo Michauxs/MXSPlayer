@@ -62,9 +62,41 @@
 	self.tabBarItem.badgeValue = nil;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark -- UIWebdelegate
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+	
+	//判断是否是单击
+	if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+		
+		NSLog(@"%@", [[request URL] absoluteString]);
+		
+		if ([[[request URL] absoluteString] hasPrefix:@"https://www.dianping.com/shop/"]) {
+			
+			return NO;
+			
+		} else {
+			return YES;
+		}
+		
+		//		iPhone自带Safari
+		//		if([[UIApplication sharedApplication]canOpenURL:url]) {
+		//			[[UIApplication sharedApplication]openURL:url];
+		//		}
+	} else
+		return YES;
 }
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+	//	getElementBtn.hidden = YES;
+	
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+	
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error { }
+
+
 
 @end

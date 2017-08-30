@@ -7,6 +7,7 @@
 //
 
 #import "MXSHomeCell.h"
+#import "VideoModel.h"
 
 @implementation MXSHomeCell {
 	UILabel *titleLabel;
@@ -16,6 +17,8 @@
 	
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
+		
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		titleLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
@@ -32,8 +35,7 @@
 - (void)setCellInfo:(id)cellInfo {
 	[super setCellInfo:cellInfo];
 	
-	self.selectionStyle = UITableViewCellSelectionStyleNone;
-	titleLabel.text = cellInfo;
+	titleLabel.text = ((VideoModel*)cellInfo).videoName;
 	
 }
 	

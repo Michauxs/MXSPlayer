@@ -18,6 +18,19 @@
 		704D525B1F5571E00004E2E7 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 704D52581F5571E00004E2E7 /* Notifications.m */; };
 		704D525C1F5571E00004E2E7 /* VideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 704D525A1F5571E00004E2E7 /* VideoModel.m */; };
 		704D525F1F5572650004E2E7 /* UIImage+category.m in Sources */ = {isa = PBXBuildFile; fileRef = 704D525E1F5572650004E2E7 /* UIImage+category.m */; };
+		706CD7B11F56B89700936870 /* MXSVideoPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 706CD7B01F56B89700936870 /* MXSVideoPlayerVC.m */; };
+		706CD7C31F56C16500936870 /* MoviePlayer_Full@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7B41F56C16500936870 /* MoviePlayer_Full@2x.png */; };
+		706CD7C41F56C16500936870 /* MoviePlayer_Play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7B51F56C16500936870 /* MoviePlayer_Play@2x.png */; };
+		706CD7C51F56C16500936870 /* MoviePlayer_Play_Big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7B61F56C16500936870 /* MoviePlayer_Play_Big@2x.png */; };
+		706CD7C61F56C16500936870 /* MoviePlayer_Slider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7B71F56C16500936870 /* MoviePlayer_Slider@2x.png */; };
+		706CD7C71F56C16500936870 /* MoviePlayer_Stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7B81F56C16500936870 /* MoviePlayer_Stop@2x.png */; };
+		706CD7C81F56C16500936870 /* MoviePlayer_Stop_Big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7B91F56C16500936870 /* MoviePlayer_Stop_Big@2x.png */; };
+		706CD7C91F56C16500936870 /* MoviePlayer_小屏@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7BA1F56C16500936870 /* MoviePlayer_小屏@2x.png */; };
+		706CD7CA1F56C16500936870 /* Player_后退@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7BB1F56C16500936870 /* Player_后退@2x.png */; };
+		706CD7CB1F56C16500936870 /* JWFullViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 706CD7BD1F56C16500936870 /* JWFullViewController.m */; };
+		706CD7CC1F56C16500936870 /* JWPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 706CD7BF1F56C16500936870 /* JWPlayer.m */; };
+		706CD7CD1F56C16500936870 /* JWPlayer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7C01F56C16500936870 /* JWPlayer.xib */; };
+		706CD7CE1F56C16500936870 /* UIDevice+JWDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 706CD7C21F56C16500936870 /* UIDevice+JWDevice.m */; };
 		708B88331F4C000E00A28EE2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 708B882C1F4C000E00A28EE2 /* main.m */; };
 		708B88341F4C000E00A28EE2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708B882E1F4C000E00A28EE2 /* ViewController.m */; };
 		708B88351F4C000E00A28EE2 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 708B88301F4C000E00A28EE2 /* Info.plist */; };
@@ -111,6 +124,23 @@
 		704D525A1F5571E00004E2E7 /* VideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoModel.m; sourceTree = "<group>"; };
 		704D525D1F5572650004E2E7 /* UIImage+category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+category.h"; sourceTree = "<group>"; };
 		704D525E1F5572650004E2E7 /* UIImage+category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+category.m"; sourceTree = "<group>"; };
+		706CD7AF1F56B89700936870 /* MXSVideoPlayerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSVideoPlayerVC.h; sourceTree = "<group>"; };
+		706CD7B01F56B89700936870 /* MXSVideoPlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXSVideoPlayerVC.m; sourceTree = "<group>"; };
+		706CD7B41F56C16500936870 /* MoviePlayer_Full@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MoviePlayer_Full@2x.png"; sourceTree = "<group>"; };
+		706CD7B51F56C16500936870 /* MoviePlayer_Play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MoviePlayer_Play@2x.png"; sourceTree = "<group>"; };
+		706CD7B61F56C16500936870 /* MoviePlayer_Play_Big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MoviePlayer_Play_Big@2x.png"; sourceTree = "<group>"; };
+		706CD7B71F56C16500936870 /* MoviePlayer_Slider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MoviePlayer_Slider@2x.png"; sourceTree = "<group>"; };
+		706CD7B81F56C16500936870 /* MoviePlayer_Stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MoviePlayer_Stop@2x.png"; sourceTree = "<group>"; };
+		706CD7B91F56C16500936870 /* MoviePlayer_Stop_Big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MoviePlayer_Stop_Big@2x.png"; sourceTree = "<group>"; };
+		706CD7BA1F56C16500936870 /* MoviePlayer_小屏@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MoviePlayer_小屏@2x.png"; sourceTree = "<group>"; };
+		706CD7BB1F56C16500936870 /* Player_后退@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Player_后退@2x.png"; sourceTree = "<group>"; };
+		706CD7BC1F56C16500936870 /* JWFullViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWFullViewController.h; sourceTree = "<group>"; };
+		706CD7BD1F56C16500936870 /* JWFullViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JWFullViewController.m; sourceTree = "<group>"; };
+		706CD7BE1F56C16500936870 /* JWPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWPlayer.h; sourceTree = "<group>"; };
+		706CD7BF1F56C16500936870 /* JWPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JWPlayer.m; sourceTree = "<group>"; };
+		706CD7C01F56C16500936870 /* JWPlayer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JWPlayer.xib; sourceTree = "<group>"; };
+		706CD7C11F56C16500936870 /* UIDevice+JWDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+JWDevice.h"; sourceTree = "<group>"; };
+		706CD7C21F56C16500936870 /* UIDevice+JWDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+JWDevice.m"; sourceTree = "<group>"; };
 		708B882C1F4C000E00A28EE2 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		708B882D1F4C000E00A28EE2 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		708B882E1F4C000E00A28EE2 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
@@ -335,6 +365,36 @@
 			path = FileWatcher;
 			sourceTree = "<group>";
 		};
+		706CD7B21F56C16500936870 /* JWPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				706CD7B31F56C16500936870 /* Image */,
+				706CD7BC1F56C16500936870 /* JWFullViewController.h */,
+				706CD7BD1F56C16500936870 /* JWFullViewController.m */,
+				706CD7BE1F56C16500936870 /* JWPlayer.h */,
+				706CD7BF1F56C16500936870 /* JWPlayer.m */,
+				706CD7C01F56C16500936870 /* JWPlayer.xib */,
+				706CD7C11F56C16500936870 /* UIDevice+JWDevice.h */,
+				706CD7C21F56C16500936870 /* UIDevice+JWDevice.m */,
+			);
+			path = JWPlayer;
+			sourceTree = "<group>";
+		};
+		706CD7B31F56C16500936870 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				706CD7B41F56C16500936870 /* MoviePlayer_Full@2x.png */,
+				706CD7B51F56C16500936870 /* MoviePlayer_Play@2x.png */,
+				706CD7B61F56C16500936870 /* MoviePlayer_Play_Big@2x.png */,
+				706CD7B71F56C16500936870 /* MoviePlayer_Slider@2x.png */,
+				706CD7B81F56C16500936870 /* MoviePlayer_Stop@2x.png */,
+				706CD7B91F56C16500936870 /* MoviePlayer_Stop_Big@2x.png */,
+				706CD7BA1F56C16500936870 /* MoviePlayer_小屏@2x.png */,
+				706CD7BB1F56C16500936870 /* Player_后退@2x.png */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		708B88291F4C000E00A28EE2 /* main */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,10 +419,10 @@
 		708B88391F4C018600A28EE2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				708B883A1F4C018600A28EE2 /* Content */,
 				708B883D1F4C018600A28EE2 /* Home */,
-				708B88401F4C018600A28EE2 /* Profile */,
+				708B883A1F4C018600A28EE2 /* Content */,
 				708B88431F4C018600A28EE2 /* Setting */,
+				708B88401F4C018600A28EE2 /* Profile */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -379,6 +439,8 @@
 		708B883D1F4C018600A28EE2 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				706CD7AF1F56B89700936870 /* MXSVideoPlayerVC.h */,
+				706CD7B01F56B89700936870 /* MXSVideoPlayerVC.m */,
 				704D52401F5564EB0004E2E7 /* HomeView */,
 				708B883E1F4C018600A28EE2 /* MXSHomeVC.h */,
 				708B883F1F4C018600A28EE2 /* MXSHomeVC.m */,
@@ -442,6 +504,7 @@
 		708B88541F4C028E00A28EE2 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				706CD7B21F56C16500936870 /* JWPlayer */,
 				708B88551F4C028E00A28EE2 /* Masonry */,
 				708B88701F4C028E00A28EE2 /* MBProgressHUD */,
 				708B88731F4C028E00A28EE2 /* MJRefresh */,
@@ -748,9 +811,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				708B88351F4C000E00A28EE2 /* Info.plist in Resources */,
+				706CD7C91F56C16500936870 /* MoviePlayer_小屏@2x.png in Resources */,
+				706CD7CD1F56C16500936870 /* JWPlayer.xib in Resources */,
 				702D1D761F46EA4F001264DB /* Assets.xcassets in Resources */,
+				706CD7C41F56C16500936870 /* MoviePlayer_Play@2x.png in Resources */,
+				706CD7C31F56C16500936870 /* MoviePlayer_Full@2x.png in Resources */,
 				708B89061F4C028E00A28EE2 /* MJRefresh.bundle in Resources */,
+				706CD7C61F56C16500936870 /* MoviePlayer_Slider@2x.png in Resources */,
 				708B88EA1F4C028E00A28EE2 /* Info.plist in Resources */,
+				706CD7C51F56C16500936870 /* MoviePlayer_Play_Big@2x.png in Resources */,
+				706CD7C71F56C16500936870 /* MoviePlayer_Stop@2x.png in Resources */,
+				706CD7C81F56C16500936870 /* MoviePlayer_Stop_Big@2x.png in Resources */,
+				706CD7CA1F56C16500936870 /* Player_后退@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -798,9 +870,12 @@
 				708B89051F4C028E00A28EE2 /* MJRefreshStateHeader.m in Sources */,
 				704D52561F55719F0004E2E7 /* SandBoxHelper.m in Sources */,
 				708B88FE1F4C028E00A28EE2 /* BSRefreshAnimationFooter.m in Sources */,
+				706CD7CB1F56C16500936870 /* JWFullViewController.m in Sources */,
 				708B88F31F4C028E00A28EE2 /* View+MASAdditions.m in Sources */,
+				706CD7B11F56B89700936870 /* MXSVideoPlayerVC.m in Sources */,
 				708B88FF1F4C028E00A28EE2 /* MJRefreshBackGifFooter.m in Sources */,
 				708B88EE1F4C028E00A28EE2 /* MASLayoutConstraint.m in Sources */,
+				706CD7CE1F56C16500936870 /* UIDevice+JWDevice.m in Sources */,
 				708B890D1F4C028E00A28EE2 /* TADotView.m in Sources */,
 				708B891B1F4C028E00A28EE2 /* UIButton+WebCache.m in Sources */,
 				708B89151F4C028E00A28EE2 /* SDWebImageCompat.m in Sources */,
@@ -828,6 +903,7 @@
 				70DF3D0E1F5519E500B04137 /* MXSDelegateBase.m in Sources */,
 				704D525B1F5571E00004E2E7 /* Notifications.m in Sources */,
 				708B89071F4C028E00A28EE2 /* MJRefreshConst.m in Sources */,
+				706CD7CC1F56C16500936870 /* JWPlayer.m in Sources */,
 				708B89011F4C028E00A28EE2 /* MJRefreshBackStateFooter.m in Sources */,
 				708B89021F4C028E00A28EE2 /* BSRefreshAnimationHeader.m in Sources */,
 				708B89101F4C028E00A28EE2 /* SDCycleScrollView.m in Sources */,

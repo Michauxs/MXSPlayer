@@ -29,27 +29,26 @@
 + (NSString *)libPrefPath
 {
     NSArray * paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    return [[paths objectAtIndex:0] stringByAppendingFormat:@"/Preferences"];
+    return [[paths lastObject] stringByAppendingFormat:@"/Preferences"];
 }
 
-+ (NSString *)libCachePath
-{
++ (NSString *)libCachePath {
     NSArray * paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    return [[paths objectAtIndex:0] stringByAppendingFormat:@"/Caches"];
+    return [[paths lastObject] stringByAppendingFormat:@"/Caches"];
 }
 
-+ (NSString *)tmpPath
-{return [NSHomeDirectory() stringByAppendingFormat:@"/tmp"];
++ (NSString *)tmpPath {
+	return [NSHomeDirectory() stringByAppendingFormat:@"/tmp"];
 }
 
-+ (NSString *)iTunesVideoImagePath{
++ (NSString *)iTunesVideoImagePath {
 
     NSString *path = [[self libCachePath] stringByAppendingFormat:@"/iTunesVideoPhoto"];
     [self hasLive:path];
     return path;
-    
 }
-+ (NSString *)AlbumVideoImagePath{
+    
++ (NSString *)AlbumVideoImagePath {
 
     NSString *path = [[self libCachePath] stringByAppendingFormat:@"/albumVideoPhoto"];
     [self hasLive:path];
@@ -57,24 +56,18 @@
 }
 
 
-+ (BOOL)hasLive:(NSString *)path
-{
-    if ( NO == [[NSFileManager defaultManager] fileExistsAtPath:path] )
-    {
-        return [[NSFileManager defaultManager] createDirectoryAtPath:path
-                                         withIntermediateDirectories:YES
-                                                          attributes:nil
-                                                               error:NULL];
++ (BOOL)hasLive:(NSString *)path {
+    if ( NO == [[NSFileManager defaultManager] fileExistsAtPath:path] ) {
+        return [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL];
     }
-    
     return YES;
 }
 
-+ (BOOL)fileExists:(NSString *)path{
++ (BOOL)fileExists:(NSString *)path {
     return  [[NSFileManager defaultManager] fileExistsAtPath:path];
 }
 
-+(BOOL)deleteFile:(NSString *)path{
++(BOOL)deleteFile:(NSString *)path {
     if ([self fileExists:path]) {
         NSFileManager* fileManager=[NSFileManager defaultManager];
         return  [fileManager removeItemAtPath:path error:nil];
