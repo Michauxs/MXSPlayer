@@ -10,7 +10,6 @@
 #import <WebKit/WebKit.h>
 
 
-@interface MXSHomeVC : MXSViewController <UITableViewDelegate, UITableViewDataSource>
-//<WKUIDelegate,WKNavigationDelegate,WKScriptMessageHandler>
+@interface MXSHomeVC : MXSViewController
 
 @end

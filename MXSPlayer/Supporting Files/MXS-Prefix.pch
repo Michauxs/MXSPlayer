@@ -23,5 +23,13 @@
 #define SCREEN_HEIGHT 					[UIScreen mainScreen].bounds.size.height
 #define SCREEN_SCALE 					[UIScreen mainScreen].scale
 
+#define kSTATUSANDNAVHEIGHT 			64
+#define kTABBARHEIGHT		 			49
+#define kNAVBARHEIGHT		 			49
+
+
+#define kMXSFontLight(FONTSIZE)			[UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
+#define kMXSFontMedium(FONTSIZE)		[UIFont fontWithName:@"STHeitiSC-Medium" size:FONTSIZE]
+
 
 #endif /* MXS_Prefix_pch */

@@ -19,52 +19,61 @@
 @implementation MXSTabBarController
 
 - (void)viewDidLoad {
+	
     [super viewDidLoad];
 	
 	UINavigationController *nav_home = [[UINavigationController alloc]init];
 	UINavigationController *nav_con = [[UINavigationController alloc]init];
 	UINavigationController *nav_set = [[UINavigationController alloc]init];
-	UINavigationController *nav_profile = [[UINavigationController alloc]init];
+	UINavigationController *nav_prof = [[UINavigationController alloc]init];
 	
 	MXSHomeVC *vc_home = [[MXSHomeVC alloc]init];
 	MXSContentVC *vc_con = [[MXSContentVC alloc]init];
 	MXSSettingVC *vc_set = [[MXSSettingVC alloc]init];
-	MXSProfileVC *vc_profile = [[MXSProfileVC alloc] init];
+	MXSProfileVC *vc_prof = [[MXSProfileVC alloc] init];
 	
 	[nav_home pushViewController:vc_home animated:NO];
 	[nav_con pushViewController:vc_con animated:NO];
 	[nav_set pushViewController:vc_set animated:NO];
-	[nav_profile pushViewController:vc_profile animated:NO];
+	[nav_prof pushViewController:vc_prof animated:NO];
 	
-	vc_home.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"HOME" image:IMGRESOURE(@"tab_home") selectedImage:IMGRESOURE(@"tab_home_selected")];
-	vc_con.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"CONT" image:IMGRESOURE(@"tab_found") selectedImage:[UIImage imageNamed:@"tab_found_selected"]];
-	vc_set.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"CENT" image:IMGRESOURE(@"tab_friends") selectedImage:[UIImage imageNamed:@"tab_friends_selected"]];
-	vc_profile.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"PROF" image:IMGRESOURE(@"tab_friends") selectedImage:IMGRESOURE(@"tab_friends_selected")];
+	[self controller:vc_home Title:@"Home" tabBarItemImage:@"tab_icon_0"];
+	[self controller:vc_con Title:@"CONT" tabBarItemImage:@"tab_icon_1"];
+	[self controller:vc_set Title:@"CENT" tabBarItemImage:@"tab_icon_2"];
+	[self controller:vc_prof Title:@"PROF" tabBarItemImage:@"tab_icon_3"];
 	
 	vc_con.tabBarItem.badgeColor = [UIColor redColor];
 	
-	self.viewControllers = @[nav_home, nav_con, nav_set, nav_profile];
-	self.selectedIndex = 3;
+	self.viewControllers = @[nav_home, nav_con, nav_set, nav_prof];
+	
+//	self.selectedIndex = 3;
 	
 }
 
-
-
+- (void)controller:(UIViewController *)controller Title:(NSString *)title tabBarItemImage:(NSString *)imageName {
+	controller.tabBarItem = [[UITabBarItem alloc] init];
+	
+	[controller.tabBarItem setTitle:title];
+	NSDictionary *attr_color_normal = @{NSFontAttributeName:[UIFont systemFontOfSize:10.f], NSForegroundColorAttributeName:[Tools garyColor]};
+	[controller.tabBarItem setTitleTextAttributes:attr_color_normal forState:UIControlStateNormal];
+	
+	NSDictionary *attr_color_select = @{NSFontAttributeName:[UIFont systemFontOfSize:10.f], NSForegroundColorAttributeName:[Tools themeColor]};
+	[controller.tabBarItem setTitleTextAttributes:attr_color_select forState:UIControlStateSelected];
+	
+	UIImage *image = [UIImage imageNamed:imageName];
+	image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+	[controller.tabBarItem setImage:image];
+	
+	UIImage *selectedImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_select", imageName]];
+	selectedImage = [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+	[controller.tabBarItem setSelectedImage:selectedImage];
+	
+}
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

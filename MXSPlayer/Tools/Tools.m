@@ -7,7 +7,8 @@
 //
 
 #import "Tools.h"
-#define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
+#import <CommonCrypto/CommonDigest.h>
+
 
 @implementation Tools
 
@@ -125,7 +126,7 @@
     return resultArray3;
 }
 
-+ (NSString *)ToPinYinWith:(NSString *)hanziText dic:(NSMutableDictionary *)dic {
++ (NSString *)ToPinYinWith:(NSString *)hanziText dic:(NSMutableDictionary *)dic{
     if ([hanziText length]) {
         NSMutableString *ms = [[NSMutableString alloc] initWithString:hanziText];
         if (CFStringTransform((__bridge CFMutableStringRef)ms, 0, kCFStringTransformMandarinLatin, NO)) {
@@ -142,10 +143,6 @@
     } else {
         return nil;
     }
-}
-
-+ (UIColor *)colorWithRED:(CGFloat)RED GREEN:(CGFloat)GREEN BLUE:(CGFloat)BLUE ALPHA:(CGFloat)ALPHA {
-    return [UIColor colorWithRed:RED / 255.0 green:GREEN / 255.0 blue:BLUE / 255.0 alpha:ALPHA];
 }
 
 + (UIImage *)addPortraitToImage:(UIImage *)image userHead:(UIImage *)userhead userName:(NSString *)userName{
@@ -263,8 +260,65 @@
         temp = temp/12;
         result = [NSString stringWithFormat:@"%ld年前",temp];
     }
-    NSLog(@"MonkeyHengLog: %@ === %@", [dateFormatter stringFromDate:compareDate], result);
+	
     return result;
+}
+
++ (NSString *)compareFutureTime:(NSDate *)compareDate {
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //zzz表示时区，zzz可以删除，这样返回的日期字符将不包含时区信息。
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+    //    秒数差
+    NSTimeInterval  timeInterval = [compareDate timeIntervalSinceNow];
+    //未来为正 过去为负
+    
+    // TODO: 一个bug， 2039穿越时间显示刚刚
+//    if (compareDate.timeIntervalSince1970 > [NSDate date].timeIntervalSince1970) {
+//        return @"";
+//    }
+    
+    double temp = 0;
+    NSString *result;
+    
+    if (timeInterval < 0) {
+        result = [NSString stringWithFormat:@"正在进行"];
+    } else {
+//        timeInterval = - timeInterval;
+        if (timeInterval < 60) {
+            result = [NSString stringWithFormat:@"即将开始"];
+        }
+        else if((temp = timeInterval/60) <60){
+            result = [NSString stringWithFormat:@"%ld分钟后",(long)temp];
+        }
+        
+        else if((temp = temp/60) <24){
+            result = [NSString stringWithFormat:@"%ld小时后",(long)temp];
+        }
+        
+        else if((temp = temp/24) <30){
+            result = [NSString stringWithFormat:@"%ld天后",(long)temp];
+        }
+        
+        else if((temp = temp/30) <12){
+            result = [NSString stringWithFormat:@"%ld月后",(long)temp];
+        }
+        else{
+            temp = temp/12;
+            result = [NSString stringWithFormat:@"%ld年后",(long)temp];
+        }
+    }
+    
+    return result;
+}
++ (NSString*)getUUIDString {
+	
+	CFUUIDRef puuid = CFUUIDCreate( nil );
+	CFStringRef uuidString = CFUUIDCreateString( nil, puuid );
+	NSString * result = (NSString *)CFBridgingRelease(CFStringCreateCopy( NULL, uuidString));
+	CFRelease(puuid);
+	CFRelease(uuidString);
+	return result;
 }
 
 + (NSString*)getDeviceUUID {
@@ -303,7 +357,7 @@
         UIViewController* appRootVC = w.rootViewController;
         topVC = appRootVC;
         
-        if (topVC.presentedViewController) {
+        if (topVC.presentedViewController && ![topVC isKindOfClass:[UIAlertController class]]) {
             topVC = topVC.presentedViewController;
         }
         
@@ -322,50 +376,6 @@
     }
     
     return topVC;
-    
-//    UIViewController* activityViewController = nil;
-//    
-//    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-//    if(window.windowLevel != UIWindowLevelNormal)
-//    {
-//        NSArray *windows = [[UIApplication sharedApplication] windows];
-//        for(UIWindow *tmpWin in windows)
-//        {
-//            if(tmpWin.windowLevel == UIWindowLevelNormal)
-//            {
-//                window = tmpWin;
-//                break;
-//            }
-//        }
-//    }
-//    
-//    NSArray *viewsArray = [window subviews];
-//    if([viewsArray count] > 0)
-//    {
-//        UIView *frontView = [viewsArray objectAtIndex:0];
-//        
-//        id nextResponder = [frontView nextResponder];
-//        
-//        if([nextResponder isKindOfClass:[UIViewController class]])
-//        {
-//            activityViewController = nextResponder;
-//        }
-//        else
-//        {
-//            activityViewController = window.rootViewController;
-//        }
-//    }
-//   
-//    if ([activityViewController isKindOfClass:[UINavigationController class]]) {
-//        activityViewController = ((UINavigationController*)activityViewController).viewControllers.lastObject;
-//    }
-//    
-//    return activityViewController;
-    
-//    NSArray *appRootVC = [UIApplication sharedApplication].windows;
-//    
-//    UIViewController *topVC = appRootVC.firstObject;
-    
 
 }
 
@@ -397,28 +407,30 @@
         [st addLayoutManager:m];
         
         [st addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, st.length)];
-        con.lineFragmentPadding = 0;
+        con.lineFragmentPadding = 4;
         //    con.lineBreakMode = NSLineBreakByWordWrapping;
         con.lineBreakMode = NSLineBreakByCharWrapping;
+        
         return [m usedRectForTextContainer:con].size;
     } else {
         return CGSizeMake(0.f, 0.f);
     }
 }
 
-+ (UIColor *)randomColor {
-	return [Tools colorWithRED:(arc4random()%255) GREEN:(arc4random()%255) BLUE:(arc4random()%255) ALPHA:1.f];
+
++ (UIColor *)colorWithRED:(CGFloat)RED GREEN:(CGFloat)GREEN BLUE:(CGFloat)BLUE ALPHA:(CGFloat)ALPHA {
+	return [UIColor colorWithRed:RED / 255.0 green:GREEN / 255.0 blue:BLUE / 255.0 alpha:ALPHA];
 }
 
 + (UIColor*)themeColor {
-    return [UIColor colorWithRed:78.0/255.0 green:219.0/255.0 blue:202.0/255.0 alpha:1.0];
+    return [UIColor colorWithRed:89.0/255.0 green:213.0/255.0 blue:199.0/255.0 alpha:1.0];
 }
-+ (UIColor*)blackColor {
-    return [UIColor colorWithRed:74.0/255.0 green:74.0/255.0 blue:74.0/255.0 alpha:1.0];
++ (UIColor*)themeBorderColor {
+	return [UIColor colorWithRed:189.f/255.0 green:238.f/255.0 blue:233.f/255.0 alpha:1.0];
 }
 
-+ (UIColor*)darkBackgroundColor {
-    return [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:42.0/255.0 alpha:1.0];
++ (UIColor*)blackColor {
+    return [UIColor colorWithRed:64.0/255.0 green:64.0/255.0 blue:64.0/255.0 alpha:1.0];
 }
 
 + (UIColor*)whiteColor {
@@ -426,40 +438,70 @@
 }
 
 + (UIColor*)garyColor {
-    return [UIColor colorWithRed:155.0/255.0 green:155.0/255.0 blue:155.0/255.0 alpha:1.0];
+    return [UIColor colorWithRed:178.f / 255.f green:178.f / 255.f blue:178.f / 255.f alpha:1.f];
+}
++ (UIColor*)lightGaryColor {
+    return [UIColor colorWithRed:204.f / 255.f green:204.f / 255.f blue:204.f / 255.f alpha:1.f];
 }
 + (UIColor*)garyLineColor {
-    return [UIColor colorWithWhite:0.75 alpha:1.f];
+    return [UIColor colorWithRed:242.f / 255.f green:242.f / 255.f blue:242.f / 255.f alpha:1.f];
+}
++ (UIColor*)RGB153GaryColor {
+	return [UIColor colorWithRed:153.f / 255.f green:153.f / 255.f blue:153.f / 255.f alpha:1.f];
+}
++ (UIColor*)RGB89GaryColor {
+	return [UIColor colorWithRed:89.f / 255.f green:89.f / 255.f blue:89.f / 255.f alpha:1.f];
+}
++ (UIColor*)RGB127GaryColor {
+	return [UIColor colorWithRed:127.f / 255.f green:127.f / 255.f blue:127.f / 255.f alpha:1.f];
+}
++ (UIColor*)RGB225GaryColor {
+	return [UIColor colorWithRed:225.f / 255.f green:225.f / 255.f blue:225.f / 255.f alpha:1.f];
+}
+
++ (UIColor*)darkBackgroundColor {
+	return [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:42.0/255.0 alpha:1.0];
 }
 + (UIColor*)garyBackgroundColor {
-    return [UIColor colorWithWhite:0.9490 alpha:1.f];
+    return [UIColor colorWithRed:246.f / 255.f green:249.f / 255.f blue:251.f / 255.f alpha:1.f];
+}
++ (UIColor*)disableBackgroundColor {
+	return [UIColor colorWithRed:144.f / 255.f green:144.f / 255.f blue:144.f / 255.f alpha:1.f];
+}
+
++ (UIColor*)borderAlphaColor {
+    return [UIColor colorWithWhite:1.f alpha:0.25f];
+}
+
++ (UIColor *)randomColor {
+	return [Tools colorWithRED:(arc4random()%255) GREEN:(arc4random()%255) BLUE:(arc4random()%255) ALPHA:1.f];
 }
 
 #pragma mark -- UI
 /**
- *  设置label的 text color fontSize(正常数值为细体,大于100为粗体,-负数为正常粗细) background align
+ *  设置label的 text\ color \fontSize(正常数值为细体, 300+为正常, 600+为粗体) \background \align
 */
 + (UILabel*)creatUILabelWithText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align {
     
     UILabel *label = [UILabel new];
-    label.text = text;
+	if (text){
+		label.text = text;
+	}
     label.textColor = color;
     label.textAlignment = align;
-	label.numberOfLines = 0;
 	
-	UIFont *fontSize;
-	if (font > 600) {
-		fontSize = [UIFont boldSystemFontOfSize:(font - 600)];
+	if (font > 600.f) {
+		label.font = kMXSFontMedium(font - 600);
 	} else if (font < 600.f && font > 300.f) {
-		fontSize = [UIFont systemFontOfSize:-font];
+			label.font = [UIFont systemFontOfSize:(font - 300)];
 	} else {
-		fontSize = kAYFontLight(font);
-	}
-	label.font = fontSize;
+        label.font = kMXSFontLight(font);
+    }
     
     if (backgroundColor) {
         label.backgroundColor = backgroundColor;
-    } else label.backgroundColor = [UIColor clearColor];
+    } else
+		label.backgroundColor = [UIColor clearColor];
     
     return label;
 }
@@ -468,34 +510,105 @@
  *  设置btn的 title color fontSize(正常数值为细体,大于100为粗体,-负数为正常粗细) background align
  */
 + (UIButton*)creatUIButtonWithTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor {
-	
-	UIButton *btn = [UIButton new];
-	[btn setTitle:title forState:UIControlStateNormal];
-	[btn setTitleColor:TitleColor forState:UIControlStateNormal];
-	
-	UIFont *fontSize;
-	if (font > 600) {
-		fontSize = [UIFont boldSystemFontOfSize:(font - 600)];
-	} else if (font < 600.f && font > 300.f) {
-		fontSize = [UIFont systemFontOfSize:-font];
-	} else {
-		fontSize = kAYFontLight(font);
+    
+    UIButton *btn = [UIButton new];
+	if (title) {
+		[btn setTitle:title forState:UIControlStateNormal];
 	}
-	btn.titleLabel.font = fontSize;
+    [btn setTitleColor:TitleColor forState:UIControlStateNormal];
 	
-	if (backgroundColor) {
-		btn.backgroundColor = backgroundColor;
-	} else
-		btn.backgroundColor = [UIColor clearColor];
+	if (font > 600.f) {
+		btn.titleLabel.font = kMXSFontMedium((font - 600));
+	} else if (font < 600.f && font > 300.f) {
+		btn.titleLabel.font = [UIFont systemFontOfSize:(font - 300)];
+	} else {
+		btn.titleLabel.font = kMXSFontLight(font);
+	}
 	
-	return btn;
+    if (backgroundColor) {
+        btn.backgroundColor = backgroundColor;
+    } else
+        btn.backgroundColor = [UIColor clearColor];
+    
+    return btn;
 }
 
-#pragma mark -- NSTime
++ (void)setViewBorder:(UIView*)view withRadius:(CGFloat)radius andBorderWidth:(CGFloat)width andBorderColor:(UIColor*)color andBackground:(UIColor*)backColor {
+	view.layer.cornerRadius = radius;
+	view.layer.borderWidth = width;
+//	view.layer.border
+	view.layer.rasterizationScale = [UIScreen mainScreen].scale;
+	view.clipsToBounds = YES;
+	if (color) {
+		view.layer.borderColor = color.CGColor;
+	}
+	if (backColor) {
+		view.backgroundColor = backColor;
+	}
+}
+
++ (void)setShadowOfView:(UIView*)view withViewRadius:(CGFloat)radius_v andColor:(UIColor*)color andOffset:(CGSize)size andOpacity:(CGFloat)opacity andShadowRadius:(CGFloat)radius_s {
+	
+	if (radius_v != 0) {
+		view.layer.cornerRadius = radius_v;
+	}
+	view.layer.shadowColor = color.CGColor;
+	view.layer.shadowOffset = size;
+	view.layer.shadowRadius = radius_s;
+	view.layer.shadowOpacity = opacity;
+}
+
+#pragma mark -- CALayer
++ (void)addBtmLineWithMargin:(CGFloat)margin andAlignment:(NSInteger)alignment andColor:(UIColor*)lineColor inSuperView:(UIView*)superView {
+	UIView *line_btm = [[UIView alloc]init];
+	line_btm.backgroundColor = lineColor;
+	[superView addSubview:line_btm];
+	[line_btm mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(superView);
+		if(alignment == NSTextAlignmentCenter) {
+			make.centerX.equalTo(superView);
+		} else if (alignment == NSTextAlignmentLeft) {
+			make.left.equalTo(superView);
+		} else if (alignment == NSTextAlignmentRight) {
+			make.right.equalTo(superView);
+		}
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH- margin*((alignment == NSTextAlignmentLeft || alignment == NSTextAlignmentRight) ? 1 : 2), 0.5));
+	}];
+}
+
++ (void)creatCALayerWithFrame:(CGRect)frame andColor:(UIColor*)color  inSuperView:(UIView*)view {
+	
+	CALayer *layer = [CALayer layer];
+	layer.frame = frame;
+	layer.backgroundColor = color.CGColor;
+	[view.layer addSublayer:layer];
+}
+
+#pragma mark -- AYBtmAlert
+- (void)AYShowBtmAlertWithArgs:(NSDictionary*)args {
+    
+}
+
+#pragma mark -- NSAttributedString
++ (NSAttributedString*)transStingToAttributeString:(NSString *)string withLineSpace:(CGFloat)lineSpace {
+	// 调整行间距
+	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	paragraphStyle.lineSpacing = lineSpace;
+	paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
+	return attributedString;
+}
+
+#pragma mark -- NSDate
 + (NSDateFormatter*)creatDateFormatterWithString:(NSString*)formatter {
     
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:formatter];
+	if (formatter) {
+		[format setDateFormat:formatter];
+	} else
+		[format setDateFormat:@"yyyy-MM-dd"];
+		
     NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
     [format setTimeZone:timeZone];
     return format;
@@ -554,15 +667,22 @@
     return [UIImage imageWithCGImage:top];
 }
 
-#pragma mark -- conv
-+ (void)logLenghFromImage:(UIImage*)image {
-    NSData * imageData = UIImageJPEGRepresentation(image,1);
-    NSLog(@"%lu", imageData.length);
-}
-
-
-+ (id)creatMutableArray {
-	return [NSMutableArray array];
++ (NSString*)Bit64String:(NSString *)string {
+	/*1.
+	const char *cStr = [string UTF8String];
+	unsigned char result[CC_MD5_BLOCK_BYTES];
+	CC_MD5(cStr, (unsigned)strlen(cStr), result);
+	
+	return [[NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X%02X%02X",
+			 result[0], result[1], result[2], result[3],
+			 result[4], result[5], result[6], result[7]] uppercaseString];
+	*/
+	
+	/*2.
+	 */
+	const char *cStr = [string UTF8String];
+	return [[[NSString alloc] initWithBytes:cStr length:16 encoding:NSUTF8StringEncoding] uppercaseString];
+	
 }
 
 @end
