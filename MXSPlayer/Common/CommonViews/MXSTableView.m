@@ -22,9 +22,10 @@
 	return self;
 }
 
-- (void)registerClsaaWithName:(NSString *)class_name {
+- (void)registerClsaaWithName:(NSString *)class_name andController:(id)controller {
 	[self registerClass:NSClassFromString(class_name) forCellReuseIdentifier:class_name];
 	self.dlg.cellName = class_name;
+	self.dlg.controller = controller;
 }
 
 @end

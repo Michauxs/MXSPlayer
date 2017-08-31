@@ -15,6 +15,6 @@
 
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style andDelegate:(MXSDelegateBase*)dlg;
 
-- (void)registerClsaaWithName:(NSString*)class_name;
+- (void)registerClsaaWithName:(NSString*)class_name andController:(id)controller;
 
 @end

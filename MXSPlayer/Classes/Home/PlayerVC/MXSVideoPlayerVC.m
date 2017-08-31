@@ -9,6 +9,7 @@
 #import "MXSVideoPlayerVC.h"
 #import "AppDelegate.h"
 #import "JWPlayer.h"
+#import "MXSPLayerCoverView.h"
 
 @interface MXSVideoPlayerVC ()
 
@@ -16,39 +17,37 @@
 
 @implementation MXSVideoPlayerVC {
 	AVPlayer *handlePlayer;
+	MXSPLayerCoverView *coverView;
+	
+	BOOL isHideStatus;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	self.view.backgroundColor = [Tools blackColor];
+	isHideStatus = YES;
 	
-//	AppDelegate *degate = [[UIApplication sharedApplication] delegate];
-//	degate.allowRotation = YES;
-//	
 	NSURL *videoURL = [NSURL fileURLWithPath:self.videoPath];
 	
-	handlePlayer = [[AVPlayer alloc] initWithPlayerItem:[AVPlayerItem playerItemWithURL:videoURL]];
+	AVPlayerItem *item = [AVPlayerItem playerItemWithURL:videoURL];
+	handlePlayer = [[AVPlayer alloc] initWithPlayerItem:item];
 	
 	AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:handlePlayer];
-//	playerLayer size
 	playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
 	playerLayer.contentsScale = SCREEN_SCALE;
-	playerLayer.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	playerLayer.frame = CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH);
 	[self.view.layer addSublayer:playerLayer];
 	
 	[handlePlayer play];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished) name:AVPlayerItemDidPlayToEndTimeNotification object:handlePlayer.currentItem];
 	
+	coverView = [[MXSPLayerCoverView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH) andregController:self];
+	[self.view addSubview:coverView];
+	coverView.itemDuration = CMTimeGetSeconds(item.asset.duration);
 	
-	
-	UIButton *backBtn = [Tools creatUIButtonWithTitle:@"BACK" andTitleColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:[Tools borderAlphaColor]];
-	[self.view addSubview:backBtn];
-	[backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self.view).offset(15);
-		make.top.equalTo(self.view).offset(10);
-		make.size.mas_equalTo(CGSizeMake(44, 44));
-	}];
-	[backBtn addTarget:self action:@selector(didBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	self.view.userInteractionEnabled = YES;
+	[self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelfViewTap)]];
 	
 //	JWPlayer *player = [[JWPlayer alloc] initWithFrame:CGRectMake(0, 0, 414,9*414/16)];
 //	[player updatePlayerWith:[NSURL URLWithString:@"http://120.25.226.186:32812/resources/videos/minion_01.mp4"]];
@@ -59,7 +58,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	
 //	self.view.transform = CGAffineTransformRotate (self.view.transform, -M_PI_2);
 }
 
@@ -69,11 +67,19 @@
 }
 
 #pragma mark -- actions
+- (void)didSelfViewTap {
+	isHideStatus = NO;
+	[self setNeedsStatusBarAppearanceUpdate];
+	coverView.hidden = NO;
+}
+
 - (void)playbackFinished {
 	[self didBackBtnClick];
 }
 
 - (void)didBackBtnClick {
+	[coverView videoPlayFinished];
+	NSLog(@"didBackBtnClick");
 	[self dismissViewControllerAnimated:YES completion:^{
 		[handlePlayer.currentItem cancelPendingSeeks];
 		[handlePlayer.currentItem.asset cancelLoading];
@@ -82,31 +88,37 @@
 }
 
 - (BOOL)prefersStatusBarHidden {
-	return YES;
+	return isHideStatus;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+	return UIInterfaceOrientationLandscapeRight;
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-	return UIDeviceOrientationLandscapeLeft;
+#pragma mark -- notifies
+- (id)demo:(id)args {
+//	[handlePlayer.currentItem avi];
+	return nil;
 }
 
-- (BOOL)shouldAutorotate {
-//	if ([self.topViewController isKindOfClass:[AddMovieViewController class]]) {// 如果是这个 vc 则支持自动旋转
-//		return YES;
-//	}
-	return NO;
+- (id)playerPause {
+	
+	[handlePlayer pause];
+	return nil;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskAllButUpsideDown;
+- (id)playerResume {
+	
+	[handlePlayer play];
+	return nil;
 }
 
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (id)didCoverViewTap {
+	isHideStatus = YES;
+	[self setNeedsStatusBarAppearanceUpdate];
+	coverView.hidden = YES;
+	return nil;
 }
 
 

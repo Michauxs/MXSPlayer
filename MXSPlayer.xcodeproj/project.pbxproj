@@ -18,7 +18,8 @@
 		704D525B1F5571E00004E2E7 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 704D52581F5571E00004E2E7 /* Notifications.m */; };
 		704D525C1F5571E00004E2E7 /* VideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 704D525A1F5571E00004E2E7 /* VideoModel.m */; };
 		704D525F1F5572650004E2E7 /* UIImage+category.m in Sources */ = {isa = PBXBuildFile; fileRef = 704D525E1F5572650004E2E7 /* UIImage+category.m */; };
-		706CD7B11F56B89700936870 /* MXSVideoPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 706CD7B01F56B89700936870 /* MXSVideoPlayerVC.m */; };
+		705BC2621F57F85F00E50229 /* MXSVideoPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 705BC2601F57F85F00E50229 /* MXSVideoPlayerVC.m */; };
+		705BC2651F57FC2500E50229 /* MXSPLayerCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705BC2641F57FC2500E50229 /* MXSPLayerCoverView.m */; };
 		706CD7C31F56C16500936870 /* MoviePlayer_Full@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7B41F56C16500936870 /* MoviePlayer_Full@2x.png */; };
 		706CD7C41F56C16500936870 /* MoviePlayer_Play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7B51F56C16500936870 /* MoviePlayer_Play@2x.png */; };
 		706CD7C51F56C16500936870 /* MoviePlayer_Play_Big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706CD7B61F56C16500936870 /* MoviePlayer_Play_Big@2x.png */; };
@@ -124,8 +125,10 @@
 		704D525A1F5571E00004E2E7 /* VideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoModel.m; sourceTree = "<group>"; };
 		704D525D1F5572650004E2E7 /* UIImage+category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+category.h"; sourceTree = "<group>"; };
 		704D525E1F5572650004E2E7 /* UIImage+category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+category.m"; sourceTree = "<group>"; };
-		706CD7AF1F56B89700936870 /* MXSVideoPlayerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSVideoPlayerVC.h; sourceTree = "<group>"; };
-		706CD7B01F56B89700936870 /* MXSVideoPlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXSVideoPlayerVC.m; sourceTree = "<group>"; };
+		705BC25F1F57F85F00E50229 /* MXSVideoPlayerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSVideoPlayerVC.h; sourceTree = "<group>"; };
+		705BC2601F57F85F00E50229 /* MXSVideoPlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXSVideoPlayerVC.m; sourceTree = "<group>"; };
+		705BC2631F57FC2500E50229 /* MXSPLayerCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSPLayerCoverView.h; sourceTree = "<group>"; };
+		705BC2641F57FC2500E50229 /* MXSPLayerCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXSPLayerCoverView.m; sourceTree = "<group>"; };
 		706CD7B41F56C16500936870 /* MoviePlayer_Full@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MoviePlayer_Full@2x.png"; sourceTree = "<group>"; };
 		706CD7B51F56C16500936870 /* MoviePlayer_Play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MoviePlayer_Play@2x.png"; sourceTree = "<group>"; };
 		706CD7B61F56C16500936870 /* MoviePlayer_Play_Big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MoviePlayer_Play_Big@2x.png"; sourceTree = "<group>"; };
@@ -365,6 +368,25 @@
 			path = FileWatcher;
 			sourceTree = "<group>";
 		};
+		705BC25E1F57F85F00E50229 /* PlayerVC */ = {
+			isa = PBXGroup;
+			children = (
+				705BC2611F57F85F00E50229 /* PlayerVCView */,
+				705BC25F1F57F85F00E50229 /* MXSVideoPlayerVC.h */,
+				705BC2601F57F85F00E50229 /* MXSVideoPlayerVC.m */,
+			);
+			path = PlayerVC;
+			sourceTree = "<group>";
+		};
+		705BC2611F57F85F00E50229 /* PlayerVCView */ = {
+			isa = PBXGroup;
+			children = (
+				705BC2631F57FC2500E50229 /* MXSPLayerCoverView.h */,
+				705BC2641F57FC2500E50229 /* MXSPLayerCoverView.m */,
+			);
+			path = PlayerVCView;
+			sourceTree = "<group>";
+		};
 		706CD7B21F56C16500936870 /* JWPlayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -439,8 +461,7 @@
 		708B883D1F4C018600A28EE2 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				706CD7AF1F56B89700936870 /* MXSVideoPlayerVC.h */,
-				706CD7B01F56B89700936870 /* MXSVideoPlayerVC.m */,
+				705BC25E1F57F85F00E50229 /* PlayerVC */,
 				704D52401F5564EB0004E2E7 /* HomeView */,
 				708B883E1F4C018600A28EE2 /* MXSHomeVC.h */,
 				708B883F1F4C018600A28EE2 /* MXSHomeVC.m */,
@@ -839,6 +860,7 @@
 				708B891F1F4C028E00A28EE2 /* UIImageView+HighlightedWebCache.m in Sources */,
 				708B88F01F4C028E00A28EE2 /* MASViewConstraint.m in Sources */,
 				708B89111F4C028E00A28EE2 /* UIView+SDExtension.m in Sources */,
+				705BC2621F57F85F00E50229 /* MXSVideoPlayerVC.m in Sources */,
 				708B890B1F4C028E00A28EE2 /* TAAbstractDotView.m in Sources */,
 				708B88F61F4C028E00A28EE2 /* MJRefreshAutoFooter.m in Sources */,
 				708B891E1F4C028E00A28EE2 /* UIImage+WebP.m in Sources */,
@@ -862,6 +884,7 @@
 				708B88F81F4C028E00A28EE2 /* MJRefreshComponent.m in Sources */,
 				708B89001F4C028E00A28EE2 /* MJRefreshBackNormalFooter.m in Sources */,
 				708B89121F4C028E00A28EE2 /* MKAnnotationView+WebCache.m in Sources */,
+				705BC2651F57FC2500E50229 /* MXSPLayerCoverView.m in Sources */,
 				70DF3D111F55492D00B04137 /* MXSTableView.m in Sources */,
 				704D525C1F5571E00004E2E7 /* VideoModel.m in Sources */,
 				708B88F51F4C028E00A28EE2 /* MBProgressHUD.m in Sources */,
@@ -872,7 +895,6 @@
 				708B88FE1F4C028E00A28EE2 /* BSRefreshAnimationFooter.m in Sources */,
 				706CD7CB1F56C16500936870 /* JWFullViewController.m in Sources */,
 				708B88F31F4C028E00A28EE2 /* View+MASAdditions.m in Sources */,
-				706CD7B11F56B89700936870 /* MXSVideoPlayerVC.m in Sources */,
 				708B88FF1F4C028E00A28EE2 /* MJRefreshBackGifFooter.m in Sources */,
 				708B88EE1F4C028E00A28EE2 /* MASLayoutConstraint.m in Sources */,
 				706CD7CE1F56C16500936870 /* UIDevice+JWDevice.m in Sources */,

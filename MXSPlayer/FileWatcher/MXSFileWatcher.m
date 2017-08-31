@@ -169,6 +169,10 @@ static MXSFileWatcher *_instance;
                 }
             }
 		} else {
+			/*
+			 *模拟器：查看log日志前往APP／Documents文件夹 拖入.mp4，即可自动检测导入table
+			 *真机：在iTunes中找到APP添加.mp4文件
+			 */
 			NSLog(@"no files");
 		}
         self.isConvenientFinished = YES;

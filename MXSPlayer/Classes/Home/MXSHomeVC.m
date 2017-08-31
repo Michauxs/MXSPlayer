@@ -19,14 +19,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.view.backgroundColor = [Tools whiteColor];
+	self.view.backgroundColor = [Tools blackColor];
 	
 	fileTableView = [[MXSTableView alloc] initWithFrame:CGRectMake(0, kSTATUSANDNAVHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - kSTATUSANDNAVHEIGHT) style:UITableViewStylePlain andDelegate:nil];
 	[self.view addSubview:fileTableView];
 	
-	[fileTableView registerClsaaWithName:@"MXSHomeCell"];
-	
-	fileTableView.dlg.controller = self;
+	[fileTableView registerClsaaWithName:@"MXSHomeCell" andController:self];
+	fileTableView.mj_header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadVideos)];
 	
 	[[MXSFileWatcher shared] startManager];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUI) name:RefreshiTunesUINotification object:nil];
@@ -54,6 +53,12 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
+}
+
+
+#pragma mark -- actios
+- (void)reloadVideos {
+	[fileTableView.mj_header endRefreshing];
 }
 
 - (void)didSelectedFunc:(NSString*)funcName andArgs:(id)args {
