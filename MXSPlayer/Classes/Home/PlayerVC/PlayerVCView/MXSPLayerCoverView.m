@@ -12,6 +12,8 @@
 	
 	UIView *topDivView;
 	UIView *btmDivView;
+	
+	UILabel *titleLabel;
 	UILabel *timeGoLabel;
 	
 	UIView *progressBG;
@@ -37,6 +39,13 @@
 		topDivView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_HEIGHT, kSTATUSANDNAVHEIGHT)];
 		[self addSubview:topDivView];
 		topDivView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.5f];
+		titleLabel = [Tools creatUILabelWithText:@"Video Title" andTextColor:[Tools whiteColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[topDivView addSubview:titleLabel];
+		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(topDivView);
+			make.centerY.equalTo(topDivView).offset(10);
+		}];
+		
 		
 		btmDivView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_WIDTH - kTABBARHEIGHT, SCREEN_HEIGHT, kTABBARHEIGHT)];
 		[self addSubview:btmDivView];
@@ -137,6 +146,11 @@
 	
 	timeGoLabel.text = [NSString stringWithFormat:@"%.2d:%.2d/%.2d:%.2d",second_t, miniter_t, second_d, miniter_d];
 	
+}
+
+- (void)setVideoTitle:(NSString *)videoTitle {
+	_videoTitle = videoTitle;
+	titleLabel.text = videoTitle;
 }
 
 - (void)didBackBtnClick {

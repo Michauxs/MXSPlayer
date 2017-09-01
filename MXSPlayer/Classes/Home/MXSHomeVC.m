@@ -21,6 +21,10 @@
     [super viewDidLoad];
 	self.view.backgroundColor = [Tools blackColor];
 	
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"Local Media" andTextColor:[Tools whiteColor] andFontSize:614.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[self.view addSubview:titleLabel];
+	titleLabel.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	
 	fileTableView = [[MXSTableView alloc] initWithFrame:CGRectMake(0, kSTATUSANDNAVHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - kSTATUSANDNAVHEIGHT) style:UITableViewStylePlain andDelegate:nil];
 	[self.view addSubview:fileTableView];
 	
@@ -88,6 +92,7 @@
 	VideoModel *model = [dataModelArray objectAtIndex:row.integerValue];
 	MXSVideoPlayerVC *playVC = [[MXSVideoPlayerVC alloc] init];
 	playVC.videoPath = model.videoPath;
+	playVC.videoData = model;
 	
 //	[self.navigationController pushViewController:playVC animated:YES];
 	[self presentViewController:playVC animated:YES completion:nil];

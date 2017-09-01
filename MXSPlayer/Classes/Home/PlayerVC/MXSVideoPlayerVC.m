@@ -48,6 +48,7 @@
 	coverView = [[MXSPLayerCoverView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH) andregController:self];
 	[self.view addSubview:coverView];
 	coverView.itemDuration = CMTimeGetSeconds(item.asset.duration);
+	coverView.videoTitle = _videoData.videoName;
 	
 	self.view.userInteractionEnabled = YES;
 	[self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelfViewTap)]];

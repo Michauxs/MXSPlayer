@@ -8,9 +8,11 @@
 
 #import "MXSViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "VideoModel.h"
 
 @interface MXSVideoPlayerVC : MXSViewController <AVPlayerItemOutputPullDelegate>
 
-@property (nonatomic , strong) NSString *videoPath;
+@property (nonatomic, strong) NSString *videoPath;
+@property (nonatomic, strong) VideoModel *videoData;
 
 @end
