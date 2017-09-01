@@ -12,6 +12,7 @@
 
 @property (nonatomic, weak) id controller;
 @property (nonatomic, assign) CGFloat itemDuration;
+@property (nonatomic, assign) CGFloat currentSecond;
 
 - (instancetype)initWithFrame:(CGRect)frame andregController:(id)controller;
 - (void)videoPlayFinished;

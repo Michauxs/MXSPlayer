@@ -41,8 +41,10 @@
 		dataModelArray = [[NSMutableArray alloc] initWithArray:[MXSFileWatcher shared].dataSource];
 		NSLog(@"videos:%@", dataModelArray);
 		
+		[fileTableView.mj_header endRefreshing];
 		fileTableView.dlg.dlgData = [dataModelArray copy];
 		[fileTableView reloadData];
+		
 	});
 }
 
@@ -58,7 +60,7 @@
 
 #pragma mark -- actios
 - (void)reloadVideos {
-	[fileTableView.mj_header endRefreshing];
+	[[MXSFileWatcher shared] startManager];
 }
 
 - (void)didSelectedFunc:(NSString*)funcName andArgs:(id)args {
@@ -90,6 +92,13 @@
 //	[self.navigationController pushViewController:playVC animated:YES];
 	[self presentViewController:playVC animated:YES completion:nil];
 	
+	return nil;
+}
+
+- (id)cellDeleteFromTable:(id)args {
+	NSNumber *row = args;
+	VideoModel *model = [dataModelArray objectAtIndex:row.integerValue];
+	[[MXSFileWatcher shared] deleteiTunesVideo:@[model]];
 	return nil;
 }
 

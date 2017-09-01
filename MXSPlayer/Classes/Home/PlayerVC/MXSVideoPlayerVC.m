@@ -19,6 +19,9 @@
 	AVPlayer *handlePlayer;
 	MXSPLayerCoverView *coverView;
 	
+	
+	NSTimer *sliderTimer;
+	
 	BOOL isHideStatus;
 }
 
@@ -49,6 +52,11 @@
 	self.view.userInteractionEnabled = YES;
 	[self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelfViewTap)]];
 	
+	
+	sliderTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(sliderTimerRun) userInfo:nil repeats:YES];
+	[sliderTimer setFireDate:[NSDate distantPast]];
+	
+	
 //	JWPlayer *player = [[JWPlayer alloc] initWithFrame:CGRectMake(0, 0, 414,9*414/16)];
 //	[player updatePlayerWith:[NSURL URLWithString:@"http://120.25.226.186:32812/resources/videos/minion_01.mp4"]];
 ////	[player updatePlayerWith:[NSURL URLWithString:self.videoPath]];
@@ -67,6 +75,12 @@
 }
 
 #pragma mark -- actions
+- (void)sliderTimerRun {
+	
+	CGFloat current = CMTimeGetSeconds([handlePlayer.currentItem currentTime]);
+	coverView.currentSecond = current;
+}
+
 - (void)didSelfViewTap {
 	isHideStatus = NO;
 	[self setNeedsStatusBarAppearanceUpdate];
@@ -74,11 +88,15 @@
 }
 
 - (void)playbackFinished {
+	[coverView videoPlayFinished];
 	[self didBackBtnClick];
 }
 
 - (void)didBackBtnClick {
-	[coverView videoPlayFinished];
+	
+	[sliderTimer invalidate];
+	sliderTimer = nil;
+	
 	NSLog(@"didBackBtnClick");
 	[self dismissViewControllerAnimated:YES completion:^{
 		[handlePlayer.currentItem cancelPendingSeeks];
@@ -95,21 +113,27 @@
 	return UIInterfaceOrientationLandscapeRight;
 }
 
+- (BOOL)shouldAutorotate {
+	return NO;
+}
 
 #pragma mark -- notifies
-- (id)demo:(id)args {
-//	[handlePlayer.currentItem avi];
+- (id)seekProgressWithTrans:(id)args {
+	NSNumber *tmp = args;
+	[handlePlayer.currentItem seekToTime:CMTimeMake(tmp.floatValue, 1) completionHandler:^(BOOL finished) {
+		
+	}];
 	return nil;
 }
 
 - (id)playerPause {
-	
+	[sliderTimer setFireDate:[NSDate distantFuture]];
 	[handlePlayer pause];
 	return nil;
 }
 
 - (id)playerResume {
-	
+	[sliderTimer setFireDate:[NSDate distantPast]];
 	[handlePlayer play];
 	return nil;
 }

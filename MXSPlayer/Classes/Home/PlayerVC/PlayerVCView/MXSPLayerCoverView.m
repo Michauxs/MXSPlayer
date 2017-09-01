@@ -12,12 +12,11 @@
 	
 	UIView *topDivView;
 	UIView *btmDivView;
+	UILabel *timeGoLabel;
 	
 	UIView *progressBG;
 	UIView *progressSlider;
 	
-	NSTimer *sliderTimer;
-	CGFloat slider_time_count;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame andregController:(id)controller {
@@ -27,9 +26,13 @@
 		self.controller = controller;
 		self.backgroundColor = [UIColor clearColor];
 		self.hidden = YES;
+		
 		self.userInteractionEnabled = YES;
-		[self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCoverViewTap)]];
-		slider_time_count = 0.5;
+		UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCoverViewTap)];
+		[self addGestureRecognizer:tapGR];
+		
+		UIPanGestureRecognizer *panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGRAction:)];
+		[self addGestureRecognizer:panGR];
 		
 		topDivView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_HEIGHT, kSTATUSANDNAVHEIGHT)];
 		[self addSubview:topDivView];
@@ -38,6 +41,7 @@
 		btmDivView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_WIDTH - kTABBARHEIGHT, SCREEN_HEIGHT, kTABBARHEIGHT)];
 		[self addSubview:btmDivView];
 		btmDivView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.5f];
+		
 		
 		UIButton *backBtn = [[UIButton alloc] init];
 		[backBtn setImage:IMGRESOURE(@"icon_arrow_back") forState:UIControlStateNormal];
@@ -62,55 +66,76 @@
 		[startAndPauseBtn addTarget:self action:@selector(didStartAndPauseBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		startAndPauseBtn.selected = YES;
 		
-		CGFloat progressBGWith = SCREEN_HEIGHT - 15 - 44 - 15 - 15;
-		progressBG = [UIView new];
+		timeGoLabel = [Tools creatUILabelWithText:@"00:00/00:00" andTextColor:[Tools whiteColor] andFontSize:10.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		[btmDivView addSubview:timeGoLabel];
+		[timeGoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(btmDivView);
+			make.right.equalTo(btmDivView).offset(-15);
+		}];
+		
+		progressBG = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_HEIGHT, 2)];
 		progressBG.backgroundColor  = [UIColor colorWithWhite:0.f alpha:0.75];
 		[btmDivView addSubview:progressBG];
-		[progressBG mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(startAndPauseBtn.mas_right).offset(15);
-			make.centerY.equalTo(btmDivView);
-			make.width.mas_equalTo(progressBGWith);
-			make.height.mas_equalTo(2);
-		}];
-		progressSlider = [UIView new];
+		
+		progressSlider = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 2)];
 		progressSlider.backgroundColor  = [UIColor orangeColor];
 		[btmDivView addSubview:progressSlider];
-		[progressSlider mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(progressBG);
-			make.centerY.equalTo(btmDivView);
-			make.width.mas_equalTo(0);
-			make.height.mas_equalTo(2);
-		}];
 		
 		[Tools setViewBorder:progressBG withRadius:1.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 		[Tools setViewBorder:progressSlider withRadius:1.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 		
-		sliderTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
-		[sliderTimer setFireDate:[NSDate distantPast]];
 	}
 	
 	return self;
 }
 
-- (void)timerRun {
-	slider_time_count = slider_time_count + 0.5;
-	CGFloat percet = slider_time_count/_itemDuration;
-	NSLog(@"%f", percet);
+- (void)panGRAction:(UIPanGestureRecognizer*)pan {
 	
-	[UIView animateWithDuration:0.5 animations:^{
-		progressSlider.frame = CGRectMake(progressBG.frame.origin.x, progressBG.frame.origin.y, progressBG.frame.size.width * percet, progressBG.bounds.size.height);
-	}];
-	
+	static CGFloat time_node = 0.f;
+	UIGestureRecognizerState state = pan.state;
+	switch (state) {
+		case UIGestureRecognizerStateBegan:
+		{
+			time_node = _currentSecond;
+		}
+			break;
+		case UIGestureRecognizerStateEnded:
+		{
+			CGPoint p = [pan translationInView:self];
+			NSLog(@"%f,%f",p.x, p.y);
+			
+			CGFloat t_x = p.x;
+			CGFloat video_real_changed = t_x - (_currentSecond - time_node) + _currentSecond;
+			
+			NSNumber *tmp = [NSNumber numberWithFloat:video_real_changed];
+			[self notifyWithMethod:@"seekProgressWithTrans:" andArgs:tmp];
+			
+			CGFloat percet = (video_real_changed)/_itemDuration;
+			progressSlider.frame = CGRectMake(progressBG.frame.origin.x, progressBG.frame.origin.y, progressBG.frame.size.width * percet, progressBG.bounds.size.height);
+			
+		}
+			break;
+		default:
+			break;
+	}
 }
 
 - (void)videoPlayFinished {
-	slider_time_count = 0;
-	[sliderTimer invalidate];
-	sliderTimer = nil;
+	progressSlider.frame = CGRectMake(progressBG.frame.origin.x, progressBG.frame.origin.y, progressBG.frame.size.width, progressBG.bounds.size.height);
 }
 
-- (void)setItemDuration:(CGFloat)itemDuration {
-	_itemDuration = itemDuration;
+- (void)setCurrentSecond:(CGFloat)currentSecond {
+	_currentSecond = currentSecond;
+	
+	CGFloat percet = _currentSecond/_itemDuration;
+	progressSlider.frame = CGRectMake(progressBG.frame.origin.x, progressBG.frame.origin.y, progressBG.frame.size.width * percet, progressBG.bounds.size.height);
+	
+	int second_d = _itemDuration/60;
+	int miniter_d = (int)_itemDuration%60;
+	int second_t = _currentSecond/60;
+	int miniter_t = (int)_currentSecond%60;
+	
+	timeGoLabel.text = [NSString stringWithFormat:@"%.2d:%.2d/%.2d:%.2d",second_t, miniter_t, second_d, miniter_d];
 	
 }
 
@@ -122,10 +147,8 @@
 	
 	if (btn.selected) {
 		[self notifyWithMethod:@"playerPause" andArgs:nil];
-		[sliderTimer setFireDate:[NSDate distantFuture]];
 	} else {
 		[self notifyWithMethod:@"playerResume" andArgs:nil];
-		[sliderTimer setFireDate:[NSDate distantPast]];
 	}
 	
 	btn.selected = !btn.selected;

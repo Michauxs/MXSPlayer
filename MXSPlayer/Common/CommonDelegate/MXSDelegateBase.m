@@ -25,15 +25,8 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-//	Class c = NSClassFromString(factoryName);
-//	Method m = class_getClassMethod(c, @selector(factoryInstance));//获取类方法
-//	IMP im = method_getImplementation(m);
-//	fac = im(c, @selector(factoryInstance));
-	
 	MXSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:_cellName forIndexPath:indexPath];
-	
 	cell.cellInfo = [_dlgData objectAtIndex:indexPath.row];
-	
 	return cell;
 }
 
@@ -52,5 +45,38 @@
 		func(_controller, sel, args);
 	}
 }
+
+
+//左划删除
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+	return YES;
+}
+
+- (NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return @"删除";
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	id args = [NSNumber numberWithInteger:indexPath.row];
+	
+	SEL sel = NSSelectorFromString(@"cellDeleteFromTable:");
+	Method m = class_getInstanceMethod([_controller class], sel);
+	if (m) {
+		IMP imp = method_getImplementation(m);
+		id (*func)(id, SEL, id) = (id (*)(id, SEL, id))imp;
+		func(_controller, sel, args);
+	}
+}
+
+//- (NSArray<UITableViewRowAction*>*)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+//	
+//	UITableViewRowAction *rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"         " handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+//		NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
+//		kAYDelegateSendNotify(self, @"cellDeleteFromTable:", &row)
+//	}];
+//	
+//	rowAction.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"cell_delete")];
+//	return @[rowAction];
+//}
 
 @end
