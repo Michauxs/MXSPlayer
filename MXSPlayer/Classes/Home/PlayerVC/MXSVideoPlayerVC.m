@@ -36,7 +36,7 @@
 	handlePlayer = [[AVPlayer alloc] initWithPlayerItem:item];
 	
 	AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:handlePlayer];
-	playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+	playerLayer.videoGravity = AVLayerVideoGravityResize;
 	playerLayer.contentsScale = SCREEN_SCALE;
 	playerLayer.frame = CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH);
 	[self.view.layer addSublayer:playerLayer];
